@@ -6,9 +6,9 @@
 	<settings>
 		<setting name="useColumnLabel" value="true" />
 	</settings>
-	<plugins>
+	<!-- <plugins>
         <plugin interceptor="com.bookshop.page.PageInterceptor">
             <property name="databaseType" value="mysql" />
         </plugin>
-    </plugins>
+    </plugins> -->
 </configuration>
