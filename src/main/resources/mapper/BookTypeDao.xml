@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.dao.BookTypeDao">
+	<insert id="addBookType" parameterType="BooType">
+		INSERT INTO tb_booktype (typeName)
+		VALUES (#{typeName})
+	</insert>
+	<delete id="deleteBookType">
+		DELETE FROM tb_booktype
+		WHERE typeId = #{typeId}
+	</delete>
+	<update id="updateBookType">
+		UPDATE tb_book
+	</update>
+</mapper>
