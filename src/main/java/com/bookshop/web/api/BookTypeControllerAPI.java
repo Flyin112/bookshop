@@ -20,7 +20,7 @@ public class BookTypeControllerAPI {
 	@Autowired
 	private BookTypeService bookTypeService;
 	
-	@RequestMapping({"/", "/getAll"})
+	@RequestMapping({"/", "/list"})
 	@ResponseBody
 	private Result getAllBookTypes() {
 		List<BookType> bookTypes = bookTypeService.queryBookTypes();
@@ -35,4 +35,14 @@ public class BookTypeControllerAPI {
 		ResponsePageInfo<BookType> responsePageInfo = new ResponsePageInfo<BookType>(total, bookTypes);
 		return new Result(1, "查询成功", responsePageInfo);
 	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	private Result deleteBookType(Integer typeId) {
+		if(bookTypeService.deleteBookType(typeId))
+			return new Result(1, "删除成功", null);
+		return new Result(0, "删除失败", null);
+	}
+	
+	
 }
