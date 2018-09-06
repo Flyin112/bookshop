@@ -1,6 +1,6 @@
 package com.bookshop.dto;
 
-public class Page {
+public class RequestPageInfo {
 
 	//第几页
 	private int pageNumber;
@@ -8,11 +8,11 @@ public class Page {
 	//每页大小
 	private int pageSize;
 	
-	public Page() {
+	public RequestPageInfo() {
 		
 	}
 	
-	public Page(int pageNumber, int pageSize) {
+	public RequestPageInfo(int pageNumber, int pageSize) {
 		this.setPageNumber(pageNumber);
         this.setPageSize(pageSize);
 	}

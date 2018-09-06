@@ -40,5 +40,11 @@ public interface BookTypeDao {
 	 * @param pageInfoForSQL 分页信息
 	 * @return 查询结果
 	 */
-	List<BookType> quaryBookTypes(PageInfoForSQL pageInfoForSQL);
+	List<BookType> queryBookTypes(PageInfoForSQL pageInfoForSQL);
+	
+	/**
+	 * 查询总数
+	 * @return
+	 */
+	int queryCountForBookTypes();
 }

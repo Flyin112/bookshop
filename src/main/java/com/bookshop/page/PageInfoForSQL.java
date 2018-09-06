@@ -1,6 +1,6 @@
 package com.bookshop.page;
 
-import com.bookshop.dto.Page;
+import com.bookshop.dto.RequestPageInfo;
 
 public class PageInfoForSQL {
 		// 开始行
@@ -44,7 +44,7 @@ public class PageInfoForSQL {
 			this.setAllPage(false);
 		}
 
-		public PageInfoForSQL(Page page) {
+		public PageInfoForSQL(RequestPageInfo page) {
 			this.startRow = (page.getPageNumber() - 1) * page.getPageSize();
 	        this.pageSize = page.getPageSize();
 	        this.setAllPage(false);
