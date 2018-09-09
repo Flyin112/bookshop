@@ -2,8 +2,8 @@ package com.bookshop.dao;
 
 import java.util.List;
 
+import com.bookshop.SQL.PageInfoForSQL;
 import com.bookshop.entity.BookType;
-import com.bookshop.page.PageInfoForSQL;
 
 public interface BookTypeDao {
 	

@@ -1,25 +1,26 @@
-package com.bookshop.entity;
+package com.bookshop.dto;
 
 import java.util.Date;
 
-public class UserInfo {
+public class ResponseUserDto {
+
 	private int userId;
 	
 	private String userName;
 	
-	private String userPassword;
-	
-	private String salt;
-	
 	private short role;
 	
-	private Date createTime;
+	private String createTime;
 	
 	private String email;
 	
 	private String phone;
 	
 	private short state;
+	
+	public ResponseUserDto() {
+		
+	}
 
 	public int getUserId() {
 		return userId;
@@ -37,22 +38,6 @@ public class UserInfo {
 		this.userName = userName;
 	}
 
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
 	public short getRole() {
 		return role;
 	}
@@ -61,11 +46,11 @@ public class UserInfo {
 		this.role = role;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

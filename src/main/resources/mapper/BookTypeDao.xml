@@ -20,7 +20,7 @@
 		SELECT * FROM tb_booktype
 		WHERE typeId = #{typeId}
 	</select>
-	<select id="queryBookTypes" resultType="BookType" parameterType="com.bookshop.page.PageInfoForSQL">
+	<select id="queryBookTypes" resultType="BookType" parameterType="com.bookshop.SQL.PageInfoForSQL">
 		SELECT * FROM tb_bookType
 		<if test="allPage == false">
 			LIMIT #{startRow}, #{pageSize}

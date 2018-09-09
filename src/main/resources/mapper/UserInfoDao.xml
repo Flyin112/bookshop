@@ -4,12 +4,71 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookshop.dao.UserInfoDao">
 	<insert id="addUser" parameterType="UserInfo">
-		INSERT INTO tb_userinfo(userName, userPassword, salt, role, createTime, state)
+		INSERT INTO tb_userinfo(userName, userPassword, salt, role, createTime, state, email, phone)
 		VALUES (#{userName},
 				#{userPassword},
 				#{salt},
 				#{role},
 				#{createTime},
-				#{state})
+				#{state},
+				#{email},
+				#{phone})
 	</insert>
+	
+	<update id="updateUser" parameterType="UserInfo">
+		UPDATE tb_userinfo SET
+			<if test="userPassword != null">
+				userPassword = #{userPasword},
+			</if>
+			<if test="salt != null">
+				salt = #{salt},
+			</if>
+			<if test="role != null">
+				role = #{role},
+			</if>
+			<if test="state != null">
+				state = #{state}
+			</if>
+		WHERE
+			<if test="userId != null">
+				userId = #{userId}
+			</if>
+			<if test="userId == null and userName != null">
+				userName = #{userName}
+			</if>
+	</update>
+	
+	<select id="queryAdminCount" resultType="int">
+		SELECT COUNT(*) FROM tb_userinfo
+		WHERE role = 1
+	</select>
+	
+	<select id="queryUser" resultType="UserInfo">
+		SELECT * FROM tb_userinfo
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="queryUserByName" resultType="UserInfo">
+		SELECT * FROM tb_userinfo
+		WHERE userName = #{userName}
+	</select>
+	
+	<select id="queryUserNameByUserName" resultType="String">
+		SELECT userName FROM tb_userinfo
+		WHERE userName = #{userName}
+	</select>
+	
+	<select id="queryAllUser" resultType="UserInfo" parameterType="Map">
+		SELECT * FROM tb_userinfo
+		<where>
+			<if test="conds != null">
+				<foreach collection="conds" item="cond"  separator="and" >
+					${cond}
+				</foreach>
+			</if>
+		</where>
+		<if test="page != null">
+			LIMIT #{page.startRow}, #{page.pageSize}
+		</if>
+	</select>
 </mapper>

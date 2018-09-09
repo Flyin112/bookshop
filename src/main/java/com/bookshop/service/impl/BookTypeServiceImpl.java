@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookshop.SQL.PageInfoForSQL;
 import com.bookshop.dao.BookTypeDao;
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.entity.BookType;
-import com.bookshop.page.PageInfoForSQL;
 import com.bookshop.service.BookTypeService;
 
 @Service

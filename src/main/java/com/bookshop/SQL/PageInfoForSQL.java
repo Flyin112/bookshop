@@ -1,4 +1,4 @@
-package com.bookshop.page;
+package com.bookshop.SQL;
 
 import com.bookshop.dto.RequestPageInfo;
 
