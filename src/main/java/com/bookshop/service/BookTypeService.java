@@ -3,6 +3,7 @@ package com.bookshop.service;
 import java.util.List;
 
 import com.bookshop.dto.RequestPageInfo;
+import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.BookType;
 
 public interface BookTypeService{
@@ -40,7 +41,7 @@ public interface BookTypeService{
 	 * @param page 前端分页信息
 	 * @return
 	 */
-	List<BookType> queryBookTypes(RequestPageInfo page);
+	ResponsePageInfo<BookType> queryBookTypes(RequestPageInfo page);
 	
 	/**
 	 * 查询所有信息
@@ -48,9 +49,4 @@ public interface BookTypeService{
 	 */
 	List<BookType> queryBookTypes();
 	
-	/**
-	 * 查询总数
-	 * @return
-	 */
-	int queryCountForBookTypes();
 }

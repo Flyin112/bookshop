@@ -2,6 +2,8 @@ package com.bookshop.service;
 
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.RequestQueryCondition;
+import com.bookshop.dto.ResponseBookDetailDto;
+import com.bookshop.dto.ResponseSearchBookDto;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.BookInfo;
 
@@ -15,5 +17,7 @@ public interface BookService {
 	
 	ResponsePageInfo<BookInfo> queryAllBookInfoByAdmin(RequestPageInfo page);
 	
-	ResponsePageInfo<BookInfo> queryBookInfo(RequestQueryCondition condition);
+	ResponsePageInfo<ResponseSearchBookDto> queryBookInfo(RequestQueryCondition condition);
+	
+	ResponseBookDetailDto queryBookDetail(int bookId);
 }

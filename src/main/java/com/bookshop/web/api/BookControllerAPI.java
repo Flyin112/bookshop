@@ -1,5 +1,7 @@
 package com.bookshop.web.api;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.RequestQueryCondition;
+import com.bookshop.dto.ResponseBookDetailDto;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.BookInfo;
 import com.bookshop.service.BookService;
@@ -44,10 +47,10 @@ public class BookControllerAPI {
 	
 	@RequestMapping("/detailAdmin")
 	@ResponseBody
-	public Result queryBookByIdAdmin(int bookId) {
+	public Result queryBookByIdAdmin(@Min(1) int bookId) {
 		BookInfo bookInfo = bookService.queryBookInfo(bookId);
 		if(bookInfo != null)
-			return new Result(1, "查询成功", bookService.queryBookInfo(bookId));
+			return new Result(1, "查询成功", bookInfo);
 		return new Result(1, "查询不到此图书", null);
 	}
 	
@@ -55,5 +58,14 @@ public class BookControllerAPI {
 	@ResponseBody
 	public Result searchBook(@RequestBody @Validated RequestQueryCondition condition) {
 		return new Result(1, "查询成功", bookService.queryBookInfo(condition));
+	}
+	
+	@RequestMapping("/detail")
+	@ResponseBody
+	public Result getbookDetail(@Min(1) int bookId) {
+		ResponseBookDetailDto bookInfo = bookService.queryBookDetail(bookId);
+		if(bookInfo != null)
+			return new Result(1, "查询成功", bookInfo);
+		return new Result(1, "查询不到此图书", null);
 	}
 }

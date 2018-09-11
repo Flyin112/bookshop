@@ -1,9 +1,12 @@
 package com.bookshop.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class BookType {
 	
 	private int typeId;
 	
+	@NotBlank(message = "参数不能为空")
 	private String typeName;
 
 	public int getTypeId() {

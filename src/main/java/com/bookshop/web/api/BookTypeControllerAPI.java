@@ -2,8 +2,11 @@ package com.bookshop.web.api;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,17 +35,15 @@ public class BookTypeControllerAPI {
 	@RequestMapping("/get")
 	@ResponseBody
 	@LoginRequired(requiredRole = UserRole.ADMIN)
-	private Result getBookTypes(RequestPageInfo requestPageInfo) {
-		List<BookType> bookTypes = bookTypeService.queryBookTypes(requestPageInfo);
-		int total = bookTypeService.queryCountForBookTypes();
-		ResponsePageInfo<BookType> responsePageInfo = new ResponsePageInfo<BookType>(total, bookTypes);
+	private Result getBookTypes(@Validated RequestPageInfo requestPageInfo) {
+		ResponsePageInfo<BookType> responsePageInfo = bookTypeService.queryBookTypes(requestPageInfo);
 		return new Result(1, "查询成功", responsePageInfo);
 	}
 	
 	@RequestMapping("/delete")
 	@ResponseBody
 	@LoginRequired(requiredRole = UserRole.ADMIN)
-	private Result deleteBookType(Integer typeId) {
+	private Result deleteBookType(@NotNull Integer typeId) {
 		if(bookTypeService.deleteBookType(typeId))
 			return new Result(1, "删除成功", null);
 		return new Result(0, "删除失败", null);

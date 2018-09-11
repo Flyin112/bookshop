@@ -1,5 +1,6 @@
 package com.bookshop.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import com.bookshop.SQL.PageInfoForSQL;
 import com.bookshop.dao.BookInfoDao;
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.RequestQueryCondition;
+import com.bookshop.dto.ResponseBookDetailDto;
+import com.bookshop.dto.ResponseSearchBookDto;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.BookInfo;
 import com.bookshop.service.BookService;
@@ -48,16 +51,40 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public ResponsePageInfo<BookInfo> queryBookInfo(RequestQueryCondition condition) {
+	public ResponsePageInfo<ResponseSearchBookDto> queryBookInfo(RequestQueryCondition condition) {
 		BookQueryCondition bookQueryCondition = new BookQueryCondition(condition);
 		PageInfoForSQL pageInfoForSQL = new PageInfoForSQL(condition.getPage());
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("condition", bookQueryCondition);
 		queryMap.put("page", pageInfoForSQL);
-		List<BookInfo> rows = bookInfoDao.queryBook(queryMap);
+		List<BookInfo> books = bookInfoDao.queryBook(queryMap);
+		List<ResponseSearchBookDto> rows = new ArrayList<ResponseSearchBookDto>();
+		for(BookInfo bookInfo : books) {
+			ResponseSearchBookDto responseBookDto = new ResponseSearchBookDto();
+			responseBookDto.setBookName(bookInfo.getBookName());
+			responseBookDto.setPublisher(bookInfo.getPublisher());
+			responseBookDto.setIntroduction(bookInfo.getIntroduction());
+			responseBookDto.setPrice(bookInfo.getPrice().stripTrailingZeros().toPlainString());
+			rows.add(responseBookDto);
+		}
 		int total = bookInfoDao.queryBookCount(bookQueryCondition);
-		ResponsePageInfo<BookInfo> responsePageInfo = new ResponsePageInfo<>(total, rows);
+		ResponsePageInfo<ResponseSearchBookDto> responsePageInfo = new ResponsePageInfo<>(total, rows);
 		return responsePageInfo;
+	}
+
+	@Override
+	public ResponseBookDetailDto queryBookDetail(int bookId) {
+		BookInfo bookInfo = queryBookInfo(bookId);
+		ResponseBookDetailDto responseBookDetailDto = new ResponseBookDetailDto();
+		responseBookDetailDto.setBookName(bookInfo.getBookName());
+		responseBookDetailDto.setPublisher(bookInfo.getPublisher());
+		responseBookDetailDto.setIntroduction(bookInfo.getIntroduction());
+		responseBookDetailDto.setPrice(bookInfo.getPrice().stripTrailingZeros().toPlainString());
+		responseBookDetailDto.setPubishTime(bookInfo.getPublishTime().toString());
+		responseBookDetailDto.setISBN(bookInfo.getISBN13());
+		responseBookDetailDto.setStoreNum(bookInfo.getRealStoreNum());
+		responseBookDetailDto.setTypeId(bookInfo.getTypeId());
+		return responseBookDetailDto;
 	}
 
 }

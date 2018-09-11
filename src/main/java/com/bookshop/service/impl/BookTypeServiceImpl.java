@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.bookshop.SQL.PageInfoForSQL;
 import com.bookshop.dao.BookTypeDao;
 import com.bookshop.dto.RequestPageInfo;
+import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.BookType;
 import com.bookshop.service.BookTypeService;
 
@@ -38,18 +39,16 @@ public class BookTypeServiceImpl implements BookTypeService {
 	}
 
 	@Override
-	public List<BookType> queryBookTypes(RequestPageInfo page) {
-		return bookTypeDao.queryBookTypes(new PageInfoForSQL(page));
+	public ResponsePageInfo<BookType> queryBookTypes(RequestPageInfo page) {
+		List<BookType> bookTypes = bookTypeDao.queryBookTypes(new PageInfoForSQL(page));
+		int total = bookTypeDao.queryCountForBookTypes();
+		ResponsePageInfo<BookType> responsePageInfo = new ResponsePageInfo<BookType>(total, bookTypes);
+		return responsePageInfo;
 	}
 
 	@Override
 	public List<BookType> queryBookTypes() {
 		return bookTypeDao.queryBookTypes(new PageInfoForSQL());
-	}
-	
-	@Override
-	public int queryCountForBookTypes() {
-		return bookTypeDao.queryCountForBookTypes();
 	}
 
 }
