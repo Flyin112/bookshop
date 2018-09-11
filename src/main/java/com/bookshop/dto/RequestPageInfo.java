@@ -1,11 +1,15 @@
 package com.bookshop.dto;
 
+import javax.validation.constraints.Min;
+
 public class RequestPageInfo {
 
 	//第几页
+	@Min(value = 1, message = "参数错误")
 	private int pageNumber;
 
 	//每页大小
+	@Min(value = 1, message = "参数错误")
 	private int pageSize;
 	
 	public RequestPageInfo() {

@@ -54,4 +54,11 @@ public interface UserInfoDao {
 	 * @return
 	 */
 	List<UserInfo> queryAllUser(Map<String, Object> queryMap);
+	
+	/**
+	 * 查询满足条件用户总数
+	 * @param queryMap
+	 * @return
+	 */
+	int queryUserCount(Map<String, Object> queryMap);
 }

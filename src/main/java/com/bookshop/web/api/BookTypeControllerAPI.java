@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.BookType;
+import com.bookshop.enums.UserRole;
 import com.bookshop.service.BookTypeService;
 
 @Controller
@@ -29,6 +31,7 @@ public class BookTypeControllerAPI {
 	
 	@RequestMapping("/get")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	private Result getBookTypes(RequestPageInfo requestPageInfo) {
 		List<BookType> bookTypes = bookTypeService.queryBookTypes(requestPageInfo);
 		int total = bookTypeService.queryCountForBookTypes();
@@ -38,6 +41,7 @@ public class BookTypeControllerAPI {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	private Result deleteBookType(Integer typeId) {
 		if(bookTypeService.deleteBookType(typeId))
 			return new Result(1, "删除成功", null);

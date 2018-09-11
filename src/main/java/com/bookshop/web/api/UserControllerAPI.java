@@ -1,16 +1,21 @@
 package com.bookshop.web.api;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.RequestUserDto;
 import com.bookshop.dto.ResponseUserDto;
 import com.bookshop.dto.Result;
+import com.bookshop.enums.UserRole;
 import com.bookshop.service.UserService;
+import com.bookshop.web.validation.ValidGroup1;
 
 @Controller
 @RequestMapping("/api/user")
@@ -21,7 +26,7 @@ public class UserControllerAPI {
 	
 	@RequestMapping("/register")
 	@ResponseBody
-	private Result register(RequestUserDto userDto, HttpSession session) {
+	private Result register(HttpSession session, @Validated(value = Default.class) RequestUserDto userDto) {
 		if(userService.addUser(userDto, false)) {
 			session.invalidate();
 			return new Result(1, "注册成功", null);
@@ -31,7 +36,7 @@ public class UserControllerAPI {
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	private Result loginCheck(RequestUserDto userDto, HttpSession session) {
+	private Result loginCheck(HttpSession session, @Validated(value = ValidGroup1.class) RequestUserDto userDto) {
 		ResponseUserDto responseUserDto = userService.loginCheck(userDto.getUserName(), userDto.getPassword());
 		if(responseUserDto != null) {
 			session.setAttribute("userId", responseUserDto.getUserId());
@@ -44,6 +49,7 @@ public class UserControllerAPI {
 	
 	@RequestMapping("/logout")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.User)
 	private Result logout(HttpSession session) {
 		session.invalidate();
 		return new Result(1, "已登出", null);

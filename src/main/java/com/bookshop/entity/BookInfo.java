@@ -3,26 +3,40 @@ package com.bookshop.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class BookInfo {
 	
 	private int bookId;
 	
+	@Size(min = 1, max = 50, message = "书名长度应在1~50之间")
 	private String bookName;
 	
+	@Size(min = 1, max = 50, message = "书名长度应在1~50之间")
 	private String publisher;
 	
+	@NotNull(message = "日期不能为空")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date publishTime;
 	
+	@Size(max = 255, message = "简介长度应在0~255之间")
 	private String introduction;
 	
-	private String ISBN10;
-	
+	@Size(min = 13, max = 13, message = "ISBN码长度应为13")
 	private String ISBN13;
 	
+	@NotNull(message = "价格不为空")
+	@DecimalMin(value = "0", message = "价格参数错误")
 	private BigDecimal price;
 	
 	private int needDeliverNum;
 	
+	@Min(value = 0, message = "库存参数错误")
 	private int realStoreNum;
 	
 	private int typeId;
@@ -67,14 +81,6 @@ public class BookInfo {
 
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
-	}
-
-	public String getISBN10() {
-		return ISBN10;
-	}
-
-	public void setISBN10(String iSBN10) {
-		ISBN10 = iSBN10;
 	}
 
 	public String getISBN13() {

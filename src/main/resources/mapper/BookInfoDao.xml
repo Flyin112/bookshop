@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.dao.BookInfoDao">
+	<insert id="addBook" parameterType="BookInfo">
+		INSERT INTO tb_bookinfo (bookName, publisher, publishTime, introduction, ISBN13, price, realStoreNum, typeId)
+		VALUES(
+			#{bookName},
+			#{publisher},
+			#{publishTime},
+			#{introduction},
+			#{ISBN13},
+			#{price},
+			#{realStoreNum},
+			#{typeId}
+		)
+	</insert>
+	
+	<update id="updateBook" parameterType="BookInfo">
+		update tb_bookinfo SET
+			bookName = #{bookName},
+			publisher = #{publisher},
+			publishTime = #{publishTime},
+			introduction = #{introduction},
+			ISBN13 = #{ISBN13},
+			price = #{price},
+			realStoreNum = #{realStoreNum},
+			typeId = #{typeId},
+			state = #{state}
+		WHERE
+			bookId = #{bookId}
+	</update>
+	
+	<select id="queryBookById" resultType="BookInfo" parameterType="int">
+		SELECT * FROM tb_bookinfo
+		WHERE bookId = #{bookId}
+	</select>
+	
+	<select id="queryBook" resultType="BookInfo" parameterType="Map">
+		<if test="condition == null">
+			SELECT * FROM tb_bookinfo
+			<if test="page != null and page.allPage == false">
+				LIMIT #{page.startRow} , #{page.pageSize}
+			</if>
+		</if>
+		<if test="condition != null">
+			SELECT * FROM tb_bookinfo INNER JOIN (
+				SELECT bookId FROM tb_bookinfo
+				WHERE ${condition.column} ${condition.option} #{condition.value}
+				<if test="page != null and page.allPage == false">
+					LIMIT #{page.startRow} , #{page.pageSize}
+				</if>
+			) AS t2 USING(bookId)
+		</if>
+	</select>
+	
+	<select id="queryBookCount" resultType="int" parameterType="com.bookshop.SQL.BookQueryCondition">
+		SELECT COUNT(bookId) FROM tb_bookinfo
+		<if test="column != null and option != null and value != null">
+			WHERE ${column} ${option} #{value}
+		</if>
+	</select>
+</mapper>
