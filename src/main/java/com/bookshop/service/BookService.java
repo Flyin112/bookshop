@@ -1,5 +1,7 @@
 package com.bookshop.service;
 
+import java.util.Map;
+
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.RequestQueryCondition;
 import com.bookshop.dto.ResponseBookDetailDto;
@@ -14,6 +16,8 @@ public interface BookService {
 	boolean updateBook(BookInfo bookInfo);
 	
 	BookInfo queryBookInfo(int bookId);
+	
+	Map<String, Object> queryBookNeedNum(int bookId);
 	
 	ResponsePageInfo<BookInfo> queryAllBookInfoByAdmin(RequestPageInfo page);
 	

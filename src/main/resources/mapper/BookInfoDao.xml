@@ -37,6 +37,11 @@
 		WHERE bookId = #{bookId}
 	</select>
 	
+	<select id="queryBookNeedNum" resultType="Map" parameterType="int">
+		SELECT needNum, realNum FROM vi_bookstore
+		WHERE bookId = #{bookId}
+	</select>
+	
 	<select id="queryBook" resultType="BookInfo" parameterType="Map">
 		<if test="condition == null">
 			SELECT * FROM tb_bookinfo

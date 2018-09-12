@@ -34,8 +34,6 @@ public class BookInfo {
 	@DecimalMin(value = "0", message = "价格参数错误")
 	private BigDecimal price;
 	
-	private int needDeliverNum;
-	
 	@Min(value = 0, message = "库存参数错误")
 	private int realStoreNum;
 	
@@ -97,14 +95,6 @@ public class BookInfo {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-
-	public int getNeedDeliverNum() {
-		return needDeliverNum;
-	}
-
-	public void setNeedDeliverNum(int needDeliverNum) {
-		this.needDeliverNum = needDeliverNum;
 	}
 
 	public int getRealStoreNum() {

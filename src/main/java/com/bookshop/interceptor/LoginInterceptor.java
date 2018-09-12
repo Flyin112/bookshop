@@ -48,10 +48,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 		//isAPI = methodAnnotation == null ? false : methodAnnotation.type() == ControllerType.API;
 		
 		HttpSession session = request.getSession();
-		Integer userRole = (Integer)session.getAttribute("userRole");
-		if(userRole != null) {
-			if(userRole >= needRole)
-				return true;
+		Object object = session.getAttribute("userRole");
+		if(object != null) {
+			Integer userRole = (int)(short) object;
+			if(userRole != null) {
+				if(userRole >= needRole)
+					return true;
+			}
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);//设置为false

@@ -30,6 +30,13 @@ public interface BookInfoDao {
 	BookInfo queryBookById(int bookId);
 	
 	/**
+	 * 查询图书待发货量
+	 * @param bookId
+	 * @return
+	 */
+	Map<String, Object> queryBookNeedNum(int bookId);
+	
+	/**
 	 * 精确查询/模糊查询/左匹配查询
 	 * @param queryMap
 	 * @return

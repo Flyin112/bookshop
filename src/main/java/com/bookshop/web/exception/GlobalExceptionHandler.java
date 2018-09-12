@@ -18,12 +18,14 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(SystemException.class)
 	@ResponseBody
 	public Result customHandler(SystemException e) {
+		e.printStackTrace();
 		return new Result(e.getCode(), e.getMessage(), null);
 	}
 	
 	@ExceptionHandler(BindException.class)
 	@ResponseBody
 	public Result notValidExceptionHandler(BindException e) {
+		e.printStackTrace();
 		List<String> errors = new ArrayList<String>();
 		for(ObjectError error : e.getBindingResult().getAllErrors()) {
 			errors.add(error.getDefaultMessage());
@@ -34,6 +36,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public Result exceptionHandler(Exception e) {
+		e.printStackTrace();
 		return new Result(0, e.toString(), null);
 	}
 }

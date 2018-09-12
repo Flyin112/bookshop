@@ -6,7 +6,7 @@ public class ResponseBookDetailDto {
 	
 	private String publisher;
 	
-	private String pubishTime;
+	private String publishTime;
 	
 	private String introduction;
 	
@@ -34,12 +34,12 @@ public class ResponseBookDetailDto {
 		this.publisher = publisher;
 	}
 
-	public String getPubishTime() {
-		return pubishTime;
+	public String getPublishTime() {
+		return publishTime;
 	}
 
-	public void setPubishTime(String pubishTime) {
-		this.pubishTime = pubishTime;
+	public void setPublishTime(String pubishTime) {
+		this.publishTime = pubishTime;
 	}
 
 	public String getIntroduction() {

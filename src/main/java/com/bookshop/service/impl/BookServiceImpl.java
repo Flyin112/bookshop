@@ -18,6 +18,7 @@ import com.bookshop.dto.ResponseSearchBookDto;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.BookInfo;
 import com.bookshop.service.BookService;
+import com.bookshop.utils.FormatUtil;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -61,6 +62,7 @@ public class BookServiceImpl implements BookService {
 		List<ResponseSearchBookDto> rows = new ArrayList<ResponseSearchBookDto>();
 		for(BookInfo bookInfo : books) {
 			ResponseSearchBookDto responseBookDto = new ResponseSearchBookDto();
+			responseBookDto.setBookId(bookInfo.getBookId());
 			responseBookDto.setBookName(bookInfo.getBookName());
 			responseBookDto.setPublisher(bookInfo.getPublisher());
 			responseBookDto.setIntroduction(bookInfo.getIntroduction());
@@ -80,11 +82,17 @@ public class BookServiceImpl implements BookService {
 		responseBookDetailDto.setPublisher(bookInfo.getPublisher());
 		responseBookDetailDto.setIntroduction(bookInfo.getIntroduction());
 		responseBookDetailDto.setPrice(bookInfo.getPrice().stripTrailingZeros().toPlainString());
-		responseBookDetailDto.setPubishTime(bookInfo.getPublishTime().toString());
+		responseBookDetailDto.setPublishTime(FormatUtil.dateToString(bookInfo.getPublishTime()));
 		responseBookDetailDto.setISBN(bookInfo.getISBN13());
 		responseBookDetailDto.setStoreNum(bookInfo.getRealStoreNum());
 		responseBookDetailDto.setTypeId(bookInfo.getTypeId());
 		return responseBookDetailDto;
+	}
+
+	@Override
+	public Map<String, Object> queryBookNeedNum(int bookId) {
+		Map<String, Object> map = bookInfoDao.queryBookNeedNum(bookId);
+		return map;
 	}
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.dao.ShippingAddressDao">
+	<insert id="addAddress" parameterType="ShippingAddress">
+		INSERT INTO tb_shippingaddress (userId, address, receiver, phone, postCode)
+		VALUES (
+			#{userId},
+			#{address},
+			#{receiver},
+			#{phone},
+			#{postCode}
+		)
+	</insert>
+	
+	<delete id="deleteAddress" parameterType="Map">
+		DELETE FROM tb_shippingaddress
+		WHERE shippingAddressId = #{shippingAddressId} AND userId = #{userId}
+	</delete>
+	
+	<update id="updateAddress" parameterType="ShippingAddress">
+		UPDATE tb_shippingaddress SET
+			address = #{address},
+			receiver = #{receiver},
+			phone = #{phone},
+			postCode = #{postCode}
+		WHERE
+			shippingAddressId = #{shippingAddressId}
+	</update>
+	
+	<select id="queryAddressByUser" parameterType="int" resultType="ShippingAddress">
+		SELECT * FROM tb_shippingaddress
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="queryAddressCountByUser" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM tb_shippingaddress
+		WHERE userId = #{userId}
+	</select>
+</mapper>

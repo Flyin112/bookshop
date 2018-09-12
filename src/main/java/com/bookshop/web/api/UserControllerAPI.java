@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.RequestUserDto;
+import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.dto.ResponseUserDto;
 import com.bookshop.dto.Result;
+import com.bookshop.entity.ShippingAddress;
 import com.bookshop.enums.UserRole;
+import com.bookshop.service.ShippingAddressService;
 import com.bookshop.service.UserService;
+import com.bookshop.utils.SessionUtil;
+import com.bookshop.web.exception.SystemException;
 import com.bookshop.web.validation.ValidGroup1;
 
 @Controller
@@ -23,6 +28,7 @@ public class UserControllerAPI {
 
 	@Autowired
 	private UserService userService;
+
 	
 	@RequestMapping("/register")
 	@ResponseBody
@@ -39,9 +45,7 @@ public class UserControllerAPI {
 	private Result loginCheck(HttpSession session, @Validated(value = ValidGroup1.class) RequestUserDto userDto) {
 		ResponseUserDto responseUserDto = userService.loginCheck(userDto.getUserName(), userDto.getPassword());
 		if(responseUserDto != null) {
-			session.setAttribute("userId", responseUserDto.getUserId());
-			session.setAttribute("userName", responseUserDto.getUserName());
-			session.setAttribute("userRole", responseUserDto.getRole());
+			SessionUtil.setUserInfo(session, responseUserDto);
 			return new Result(1, "登录成功", responseUserDto);
 		}
 		return new Result(0, "登录失败", null);
@@ -62,4 +66,6 @@ public class UserControllerAPI {
 			return new Result(0, "用户名宫重复", null);
 		return new Result(1, "用户名可以使用", null);
 	}
+	
+	
 }
