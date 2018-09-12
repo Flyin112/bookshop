@@ -78,6 +78,7 @@ public class BookServiceImpl implements BookService {
 	public ResponseBookDetailDto queryBookDetail(int bookId) {
 		BookInfo bookInfo = queryBookInfo(bookId);
 		ResponseBookDetailDto responseBookDetailDto = new ResponseBookDetailDto();
+		responseBookDetailDto.setBookId(bookInfo.getBookId());
 		responseBookDetailDto.setBookName(bookInfo.getBookName());
 		responseBookDetailDto.setPublisher(bookInfo.getPublisher());
 		responseBookDetailDto.setIntroduction(bookInfo.getIntroduction());

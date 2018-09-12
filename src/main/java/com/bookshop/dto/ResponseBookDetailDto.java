@@ -2,6 +2,8 @@ package com.bookshop.dto;
 
 public class ResponseBookDetailDto {
 	
+	private int bookId;
+	
 	private String bookName;
 	
 	private String publisher;
@@ -17,6 +19,14 @@ public class ResponseBookDetailDto {
 	private int storeNum;
 	
 	private int typeId;
+
+	public int getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
 
 	public String getBookName() {
 		return bookName;
