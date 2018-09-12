@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.RequestQueryCondition;
 import com.bookshop.dto.ResponseBookDetailDto;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.BookInfo;
+import com.bookshop.enums.UserRole;
 import com.bookshop.service.BookService;
 
 @Controller
@@ -25,6 +27,7 @@ public class BookControllerAPI {
 	
 	@RequestMapping("/add")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	public Result addBook(@Validated BookInfo bookInfo) {
 		if(bookService.addBook(bookInfo))
 			return new Result(1, "添加成功", null);
@@ -33,6 +36,7 @@ public class BookControllerAPI {
 	
 	@RequestMapping("/update")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	public Result updateBook(@Validated BookInfo bookInfo) {
 		if(bookService.updateBook(bookInfo))
 			return new Result(1, "修改成功", null);
@@ -41,12 +45,14 @@ public class BookControllerAPI {
 	
 	@RequestMapping("/list")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	public Result queryAllBookByAdmin(@Validated RequestPageInfo page) {
 		return new Result(1, "查询成功", bookService.queryAllBookInfoByAdmin(page));
 	}
 	
 	@RequestMapping("/detailAdmin")
 	@ResponseBody
+	@LoginRequired(requiredRole = UserRole.ADMIN)
 	public Result queryBookByIdAdmin(@Min(1) int bookId) {
 		BookInfo bookInfo = bookService.queryBookInfo(bookId);
 		if(bookInfo != null)

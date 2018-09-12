@@ -11,6 +11,8 @@ public interface CartDao {
 	
 	int deleteCart(Cart cart);
 	
+	int deleteAllByUser(int userId);
+	
 	int updateCart(Cart cart);
 	
 	List<Cart> queryCarts(int userId);

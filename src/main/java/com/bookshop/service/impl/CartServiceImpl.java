@@ -77,5 +77,11 @@ public class CartServiceImpl implements CartService {
 		return cartDao.queryCart(map);
 	}
 
+	@Override
+	public boolean deleteAllByUser(int userId) {
+		cartDao.deleteAllByUser(userId);
+		return true;
+	}
+
 	
 }

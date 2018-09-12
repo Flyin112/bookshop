@@ -20,6 +20,7 @@ import com.bookshop.web.validation.ValidGroup1;
 
 @Controller
 @RequestMapping("/api/user/address")
+@LoginRequired(requiredRole = UserRole.User)
 public class ShippingAddressControllerAPI {
 
 	@Autowired
@@ -27,7 +28,6 @@ public class ShippingAddressControllerAPI {
 	
 	@RequestMapping("/list")
 	@ResponseBody
-	@LoginRequired(requiredRole = UserRole.User)
 	private Result getAddressList(HttpSession session) {
 		int userId = SessionUtil.getUserId(session);
 		ResponsePageInfo<ShippingAddress> responsePageInfo = shippingAddressService.queryAddressByUser(userId);
@@ -36,7 +36,6 @@ public class ShippingAddressControllerAPI {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	@LoginRequired(requiredRole = UserRole.User)
 	private Result addAddress(HttpSession session, @Validated(value = ValidGroup1.class) ShippingAddress address) {
 		if(SessionUtil.checkUserId(session, address.getUserId())) {
 			if(shippingAddressService.addAddress(address))
@@ -48,7 +47,6 @@ public class ShippingAddressControllerAPI {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	@LoginRequired(requiredRole = UserRole.User)
 	private Result updateAddress(HttpSession session, @Validated ShippingAddress address) {
 		if(SessionUtil.checkUserId(session, address.getUserId())) {
 			if(shippingAddressService.updateAddress(address))
@@ -60,7 +58,6 @@ public class ShippingAddressControllerAPI {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	@LoginRequired(requiredRole = UserRole.User)
 	private Result deleteAddress(HttpSession session, int addressId) {
 		boolean statu = shippingAddressService.deleteAddress(addressId, SessionUtil.getUserId(session));
 		if(statu)

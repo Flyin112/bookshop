@@ -14,7 +14,12 @@
 	
 	<delete id="deleteCart"  parameterType="Cart">
 		DELETE FROM tb_cart
-		WHERE cartId = #{cartId} AND userId = #{userId}
+		WHERE cartId = #{cartId}
+	</delete>
+	
+	<delete id="deleteAllByUser" parameterType="int">
+		DELETE FROM tb_cart
+		WHERE userId = #{userId}
 	</delete>
 	
 	<update id="updateCart" parameterType="Cart">

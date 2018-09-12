@@ -9,14 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.Cart;
+import com.bookshop.enums.UserRole;
 import com.bookshop.service.CartService;
 import com.bookshop.utils.SessionUtil;
 
 @Controller
 @RequestMapping("/api/user/cart")
+@LoginRequired(requiredRole = UserRole.User)
 public class CartControllerAPI {
 
 	@Autowired
@@ -39,6 +42,14 @@ public class CartControllerAPI {
 		cart.setUserId(userId);
 		cart.setBookNum(num);
 		cartService.updateCart(cart, op);
+		return new Result(1, "操作成功", null);
+	}
+	
+	@RequestMapping("/clean")
+	@ResponseBody
+	public Result cleanCart(HttpSession session) {
+		int userId = SessionUtil.getUserId(session);
+		cartService.deleteAllByUser(userId);
 		return new Result(1, "操作成功", null);
 	}
 }

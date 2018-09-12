@@ -10,4 +10,6 @@ public interface CartService {
 	Cart queryCartByUserAndBook(int userId, int bookId);
 
 	boolean updateCart(Cart cart, int op);
+	
+	boolean deleteAllByUser(int userId);
 }
