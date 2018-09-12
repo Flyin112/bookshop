@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookshop.annotation.LoginRequired;
+import com.bookshop.dto.CartDto;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.Cart;
@@ -29,7 +30,7 @@ public class CartControllerAPI {
 	@ResponseBody
 	public Result getCartList(HttpSession session) {
 		int userId = SessionUtil.getUserId(session);
-		ResponsePageInfo<Cart> responsePageInfo = cartService.queryCartByUser(userId);
+		ResponsePageInfo<CartDto> responsePageInfo = cartService.queryCartByUser(userId);
 		return new Result(1, "查询成功", responsePageInfo);
 	}
 	

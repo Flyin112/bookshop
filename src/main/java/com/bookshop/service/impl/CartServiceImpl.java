@@ -1,5 +1,6 @@
 package com.bookshop.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookshop.dao.CartDao;
+import com.bookshop.dto.CartDto;
+import com.bookshop.dto.ResponseBookDetailDto;
 import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.Cart;
 import com.bookshop.service.BookService;
@@ -24,10 +27,20 @@ public class CartServiceImpl implements CartService {
 	private BookService bookService;
 
 	@Override
-	public ResponsePageInfo<Cart> queryCartByUser(int userId) {
-		List<Cart> rows = cartDao.queryCarts(userId);
+	public ResponsePageInfo<CartDto> queryCartByUser(int userId) {
+		List<Cart> list = cartDao.queryCarts(userId);
 		int total = cartDao.queryCartCount(userId);
-		return new ResponsePageInfo<Cart>(total, rows);
+		List<CartDto> rows = new ArrayList<CartDto>();
+		for(Cart cart : list) {
+			CartDto cartDto = new CartDto();
+			cartDto.setCartId(cart.getCartId());
+			cartDto.setUserId(cart.getUserId());
+			cartDto.setBookNum(cart.getBookNum());
+			ResponseBookDetailDto book = bookService.queryBookDetail(cart.getBookId());
+			cartDto.setBook(book);
+			rows.add(cartDto);
+		}
+		return new ResponsePageInfo<CartDto>(total, rows);
 	}
 
 	@Override
