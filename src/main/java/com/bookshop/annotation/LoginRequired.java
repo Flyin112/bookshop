@@ -12,7 +12,7 @@ import com.bookshop.enums.UserRole;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoginRequired {
 	
-	ControllerType type() default ControllerType.NORMAL;
+	ControllerType type() default ControllerType.API;
 	
 	UserRole requiredRole() default UserRole.NORMAL;
 }
