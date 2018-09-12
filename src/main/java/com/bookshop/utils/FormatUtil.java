@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 
 public class FormatUtil {
 
-	public static String dateToString(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	public static String dateToString(Date date, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(date);
 	}
 }

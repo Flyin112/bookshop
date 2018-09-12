@@ -1,5 +1,7 @@
 package com.bookshop.dto;
 
+import java.math.BigDecimal;
+
 public class ResponseBookDetailDto {
 	
 	private int bookId;
@@ -14,7 +16,7 @@ public class ResponseBookDetailDto {
 	
 	private String ISBN;
 	
-	private String price;
+	private BigDecimal price;
 	
 	private int storeNum;
 	
@@ -68,11 +70,11 @@ public class ResponseBookDetailDto {
 		ISBN = iSBN;
 	}
 
-	public String getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

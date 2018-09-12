@@ -82,8 +82,8 @@ public class BookServiceImpl implements BookService {
 		responseBookDetailDto.setBookName(bookInfo.getBookName());
 		responseBookDetailDto.setPublisher(bookInfo.getPublisher());
 		responseBookDetailDto.setIntroduction(bookInfo.getIntroduction());
-		responseBookDetailDto.setPrice(bookInfo.getPrice().stripTrailingZeros().toPlainString());
-		responseBookDetailDto.setPublishTime(FormatUtil.dateToString(bookInfo.getPublishTime()));
+		responseBookDetailDto.setPrice(bookInfo.getPrice());
+		responseBookDetailDto.setPublishTime(FormatUtil.dateToString(bookInfo.getPublishTime(), "yyyy-MM-dd"));
 		responseBookDetailDto.setISBN(bookInfo.getISBN13());
 		responseBookDetailDto.setStoreNum(bookInfo.getRealStoreNum());
 		responseBookDetailDto.setTypeId(bookInfo.getTypeId());
