@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.bookshop.annotation.LoginRequired;
 import com.bookshop.dto.Result;
+import com.bookshop.enums.ControllerType;
 
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -44,8 +45,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		int needRole = classAnnotation == null ? -1 : classAnnotation.requiredRole().getLevel();
 		needRole = methodAnnotation == null ? needRole : methodAnnotation.requiredRole().getLevel();
 		
-		//boolean isAPI = classAnnotation == null ? false : classAnnotation.type() == ControllerType.API;
-		//isAPI = methodAnnotation == null ? false : methodAnnotation.type() == ControllerType.API;
+		boolean isAPI = classAnnotation == null ? false : classAnnotation.type() == ControllerType.API;
+		isAPI = methodAnnotation == null ? false : methodAnnotation.type() == ControllerType.API;
 		
 		HttpSession session = request.getSession();
 		Object object = session.getAttribute("userRole");
@@ -56,6 +57,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 					return true;
 			}
 		}
+		
+		if(!isAPI) {
+			response.sendRedirect("/User/log");
+			return false;
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);//设置为false
 		String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(new Result(0, "需要登录", null));
