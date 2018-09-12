@@ -45,8 +45,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		int needRole = classAnnotation == null ? -1 : classAnnotation.requiredRole().getLevel();
 		needRole = methodAnnotation == null ? needRole : methodAnnotation.requiredRole().getLevel();
 		
-		boolean isAPI = classAnnotation == null ? false : classAnnotation.type() == ControllerType.API;
-		isAPI = methodAnnotation == null ? false : methodAnnotation.type() == ControllerType.API;
+		boolean isAPI = classAnnotation == null ? true : classAnnotation.type() == ControllerType.API;
+		isAPI = methodAnnotation == null ? isAPI : methodAnnotation.type() == ControllerType.API;
 		
 		HttpSession session = request.getSession();
 		Object object = session.getAttribute("userRole");
