@@ -38,4 +38,9 @@
 		SELECT COUNT(*) FROM tb_shippingaddress
 		WHERE userId = #{userId}
 	</select>
+	
+	<select id="queryAddressById" parameterType="int" resultType="ShippingAddress">
+		SELECT * FROM tb_shippingaddress 
+		WHERE shippingAddressId = #{shippingAddressId}
+	</select>
 </mapper>

@@ -20,7 +20,7 @@ import com.bookshop.utils.SessionUtil;
 
 @Controller
 @RequestMapping("/api/user/cart")
-@LoginRequired(requiredRole = UserRole.User)
+@LoginRequired(requiredRole = UserRole.USER)
 public class CartControllerAPI {
 
 	@Autowired

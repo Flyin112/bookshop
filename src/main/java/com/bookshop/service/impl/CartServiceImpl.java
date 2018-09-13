@@ -1,5 +1,6 @@
 package com.bookshop.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.bookshop.dao.CartDao;
 import com.bookshop.dto.CartDto;
 import com.bookshop.dto.ResponseBookDetailDto;
 import com.bookshop.dto.ResponsePageInfo;
+import com.bookshop.entity.BookInfo;
 import com.bookshop.entity.Cart;
 import com.bookshop.service.BookService;
 import com.bookshop.service.CartService;
@@ -36,6 +38,7 @@ public class CartServiceImpl implements CartService {
 			cartDto.setCartId(cart.getCartId());
 			cartDto.setUserId(cart.getUserId());
 			cartDto.setBookNum(cart.getBookNum());
+			cartDto.setBookPrice(cart.getBookPrice());
 			ResponseBookDetailDto book = bookService.queryBookDetail(cart.getBookId());
 			cartDto.setBook(book);
 			rows.add(cartDto);
@@ -45,19 +48,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public boolean updateCart(Cart cart, int op) {
-		Map<String, Object> map = bookService.queryBookNeedNum(cart.getBookId());
-		if(map.isEmpty())
-			throw new SystemException("图书不存在", 0);
-		Object o1 = map.get("realNum");
-		Object o2 = map.get("neadNum");
-		int realNum = 0;
-		int needNum = 0;
-		if(o1 != null)
-			realNum = (int)o1;
-		if(o2 != null)
-			needNum = (int)o1;
-		if(cart.getBookNum() > realNum - needNum)
-			throw new SystemException("库存不足", 0);
+		BigDecimal bookPrice = checkCart(cart.getBookNum(), cart.getBookId());
 		Cart oldCart = queryCartByUserAndBook(cart.getUserId(), cart.getBookId());
 		if(oldCart != null) {
 			cart.setCartId(oldCart.getCartId());
@@ -77,6 +68,7 @@ public class CartServiceImpl implements CartService {
 		else {
 			if(op == 0)
 				throw new SystemException("参数错误", 0);
+			cart.setBookPrice(bookPrice);
 			cartDao.addCart(cart);
 		}
 		return true;
@@ -94,6 +86,27 @@ public class CartServiceImpl implements CartService {
 	public boolean deleteAllByUser(int userId) {
 		cartDao.deleteAllByUser(userId);
 		return true;
+	}
+
+	@Override
+	public BigDecimal checkCart(int num, int bookId) {
+		BookInfo bookInfo = bookService.queryBookInfo(bookId);
+		if(bookInfo == null)
+			throw new SystemException("图书不存在", 0);
+		if(bookInfo.getState() == 1)
+			throw new SystemException("商品下架", 0);
+		Map<String, Object> map = bookService.queryBookNeedNum(bookId);
+		Object o1 = map.get("realNum");
+		Object o2 = map.get("neadNum");
+		int realNum = 0;
+		int needNum = 0;
+		if(o1 != null)
+			realNum = (int)o1;
+		if(o2 != null)
+			needNum = (int)o1;
+		if(num > realNum - needNum)
+			throw new SystemException("库存不足", 0);
+		return bookInfo.getPrice();
 	}
 
 	

@@ -16,4 +16,6 @@ public interface ShippingAddressDao {
 	List<ShippingAddress> queryAddressByUser(int userId);
 	
 	int queryAddressCountByUser(int userId);
+	
+	ShippingAddress queryAddressById(int shippingAddressId);
 }

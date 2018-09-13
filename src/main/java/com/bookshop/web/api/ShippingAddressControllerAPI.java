@@ -20,7 +20,7 @@ import com.bookshop.web.validation.ValidGroup1;
 
 @Controller
 @RequestMapping("/api/user/address")
-@LoginRequired(requiredRole = UserRole.User)
+@LoginRequired(requiredRole = UserRole.USER)
 public class ShippingAddressControllerAPI {
 
 	@Autowired

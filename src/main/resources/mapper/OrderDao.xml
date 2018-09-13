@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookshop.dao.OrderDao">
+	<insert id="addOrder" parameterType="Order">
+		INSERT INTO tb_order (orderNo, createTime, userId)
+		VALUES(
+			#{orderNo},
+			#{createTime},
+			#{userId}
+		)
+	</insert>
+	
+	<insert id="addOrderBook" parameterType="OrderBook">
+		INSERT INTO tb_orderbook (orderId, bookId, bookNum, bookPrice)
+		VALUES (
+			#{orderId},
+			#{bookId},
+			#{bookNum},
+			#{bookPrice}
+		)
+	</insert>
+	
+	<update id="updateOrderMoney">
+		UPDATE tb_order SET
+			totalMoney = #{totalMoney}
+		WHERE orderId = #{orderId}
+	</update>
+	
+	<update id="updateOrderAddress" parameterType="Order">
+		UPDATE tb_order SET
+			address = #{address},
+			receiver = #{receiver},
+			phone = #{phone}
+		WHERE orderId = #{orderId}
+	</update>
+	
+	<update id="setState">
+		UPDATE tb_order SET
+			state = #{state}
+		WHERE orderId = #{orderId}
+	</update>
+	
+	<select id="queryOrderIdByOrderNo" resultType="int" parameterType="String">
+		SELECT orderId FROM tb_order
+		WHERE orderNo = #{orderNo}
+	</select>
+	
+	<select id="queryOrderByOrderId" resultType="Order" parameterType="int">
+		SELECT * FROM tb_order
+		WHERE orderId = #{orderId}
+	</select>
+</mapper>

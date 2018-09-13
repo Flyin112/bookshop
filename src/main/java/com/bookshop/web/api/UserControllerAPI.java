@@ -53,7 +53,7 @@ public class UserControllerAPI {
 	
 	@RequestMapping("/logout")
 	@ResponseBody
-	@LoginRequired(requiredRole = UserRole.User)
+	@LoginRequired(requiredRole = UserRole.USER)
 	private Result logout(HttpSession session) {
 		session.invalidate();
 		return new Result(1, "已登出", null);

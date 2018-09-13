@@ -1,5 +1,7 @@
 package com.bookshop.entity;
 
+import java.math.BigDecimal;
+
 public class Cart {
 
 	private long cartId;
@@ -9,6 +11,8 @@ public class Cart {
 	private int bookId;
 	
 	private int bookNum;
+	
+	private BigDecimal bookPrice;
 
 	public long getCartId() {
 		return cartId;
@@ -40,5 +44,13 @@ public class Cart {
 
 	public void setBookNum(int bookNum) {
 		this.bookNum = bookNum;
+	}
+
+	public BigDecimal getBookPrice() {
+		return bookPrice;
+	}
+
+	public void setBookPrice(BigDecimal bookPrice) {
+		this.bookPrice = bookPrice;
 	}
 }
