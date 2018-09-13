@@ -13,7 +13,6 @@ public class ShippingAddress {
 	@Min(value = 1, message = "Id范围错误")
 	private int shippingAddressId;
 	
-	@Min(value = 1, message = "参数错误", groups = {ValidGroup1.class, Default.class})
 	private int userId;
 	
 	@NotBlank(message = "收货地址不能为空", groups = {ValidGroup1.class, Default.class})

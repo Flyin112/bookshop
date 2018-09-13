@@ -37,23 +37,21 @@ public class ShippingAddressControllerAPI {
 	@RequestMapping("/add")
 	@ResponseBody
 	private Result addAddress(HttpSession session, @Validated(value = ValidGroup1.class) ShippingAddress address) {
-		if(SessionUtil.checkUserId(session, address.getUserId())) {
-			if(shippingAddressService.addAddress(address))
-				return new Result(1, "插入成功", null);
-			return new Result(0, "插入失败", null);
-		}
-		throw new SystemException("没有权限", 0);
+		int userId = SessionUtil.getUserId(session);
+		address.setUserId(userId);
+		if(shippingAddressService.addAddress(address))
+			return new Result(1, "插入成功", null);
+		return new Result(0, "插入失败", null);
 	}
 	
 	@RequestMapping("/update")
 	@ResponseBody
 	private Result updateAddress(HttpSession session, @Validated ShippingAddress address) {
-		if(SessionUtil.checkUserId(session, address.getUserId())) {
-			if(shippingAddressService.updateAddress(address))
-				return new Result(1, "修改成功", null);
-			return new Result(0, "修改失败", null);
-		}
-		throw new SystemException("没有权限", 0);
+		int userId = SessionUtil.getUserId(session);
+		address.setUserId(userId);
+		if(shippingAddressService.updateAddress(address))
+			return new Result(1, "修改成功", null);
+		return new Result(0, "修改失败", null);
 	}
 	
 	@RequestMapping("/delete")
