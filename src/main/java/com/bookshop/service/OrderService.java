@@ -2,6 +2,8 @@ package com.bookshop.service;
 
 import java.math.BigDecimal;
 
+import com.bookshop.dto.RequestPageInfo;
+import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.Order;
 
 public interface OrderService {
@@ -15,4 +17,6 @@ public interface OrderService {
 	void cancelOrder(int userId, int orderId);
 	
 	void payForOrder(int userId, int orderId);
+	
+	ResponsePageInfo<Order> getOrderListByUser(int userId, short state, RequestPageInfo page);
 }

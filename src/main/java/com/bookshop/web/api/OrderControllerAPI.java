@@ -5,15 +5,20 @@ import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookshop.annotation.LoginRequired;
+import com.bookshop.dto.RequestOrderDto;
+import com.bookshop.dto.RequestPageInfo;
 import com.bookshop.dto.Result;
 import com.bookshop.entity.Order;
 import com.bookshop.enums.UserRole;
 import com.bookshop.service.OrderService;
 import com.bookshop.utils.SessionUtil;
+import com.bookshop.web.exception.SystemException;
 
 @Controller
 @RequestMapping("/api/user/order")
@@ -47,4 +52,17 @@ public class OrderControllerAPI {
 		return new Result(1, "付款成功", null);
 	}
 	
+	@RequestMapping("/list")
+	@ResponseBody
+	public Result getListByUser(HttpSession session, @Validated RequestOrderDto requestOrderDto) {
+		int userId = SessionUtil.getUserId(session);
+		RequestPageInfo pageInfo = new RequestPageInfo();
+		pageInfo.setPageNumber(requestOrderDto.getPageNumber());
+		pageInfo.setPageSize(requestOrderDto.getPageSize());
+		if(requestOrderDto.getState() == null)
+			return new Result(1, "", orderService.getOrderListByUser(userId, (short) -1, pageInfo));
+		else if(requestOrderDto.getState() >=0 && requestOrderDto.getState() <=5)
+			return new Result(1, "", orderService.getOrderListByUser(userId, requestOrderDto.getState(), pageInfo));
+		throw new SystemException("参数错误", 0);
+	}
 }

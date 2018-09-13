@@ -51,4 +51,30 @@
 		SELECT * FROM tb_order
 		WHERE orderId = #{orderId}
 	</select>
+	
+	<select id="queryOrderListByUser" resultType="Order">
+		SELECT * FROM tb_order INNER JOIN (
+			SELECT orderId FROM tb_order
+			WHERE userId = #{userId}
+			LIMIT #{page.startRow}, #{page.pageSize}
+		) AS t2 USING(orderId)
+	</select>
+	
+	<select id="queryOrderListCountByUser" resultType="int">
+		SELECT COUNT(orderId) FROM tb_order
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="queryOrderListByUserWithState" resultType="Order">
+		SELECT * FROM tb_order INNER JOIN (
+			SELECT orderId FROM tb_order
+			WHERE userId = #{userId} AND state = #{state}
+			LIMIT #{page.startRow}, #{page.pageSize}
+		) AS t2 USING(orderId)
+	</select>
+	
+	<select id="queryOrderListCountByUserWithState" resultType="int">
+		SELECT COUNT(orderId) FROM tb_order
+		WHERE userId = #{userId} AND #{state} = state
+	</select>
 </mapper>

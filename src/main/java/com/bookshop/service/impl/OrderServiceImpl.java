@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bookshop.SQL.PageInfoForSQL;
 import com.bookshop.dao.CartDao;
 import com.bookshop.dao.OrderDao;
 import com.bookshop.dao.ShippingAddressDao;
+import com.bookshop.dto.RequestPageInfo;
+import com.bookshop.dto.ResponsePageInfo;
 import com.bookshop.entity.Cart;
 import com.bookshop.entity.Order;
 import com.bookshop.entity.OrderBook;
@@ -126,6 +129,20 @@ public class OrderServiceImpl implements OrderService{
 		if(nowState != 0)
 			throw new SystemException("订单状态错误", 0);
 		orderDao.setState(orderId, (short)1);
+	}
+
+	@Override
+	public ResponsePageInfo<Order> getOrderListByUser(int userId, short state, RequestPageInfo page) {
+		PageInfoForSQL pageInfoForSQL = new PageInfoForSQL(page);
+		if(state == -1) {
+			List<Order> rows = orderDao.queryOrderListByUser(userId, pageInfoForSQL);
+			int total = orderDao.queryOrderListCountByUser(userId);
+			return new ResponsePageInfo<Order>(total, rows);
+		}else {
+			List<Order> rows = orderDao.queryOrderListByUserWithState(userId, state, pageInfoForSQL);
+			int total = orderDao.queryOrderListCountByUserWithState(userId, state);
+			return new ResponsePageInfo<Order>(total, rows);
+		}
 	}
 
 }
